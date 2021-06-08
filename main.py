@@ -42,15 +42,13 @@ class RedBlackTree():
     #         self.__post_order_helper(node.right)
     #         sys.stdout.write(node.data + " ")
 
-    def __search_tree_helper(self, node, key):
+    def search(self, node, key):
         if node == self.TNULL or key == node.data:
-            return node
+            return node.data
 
         if key < node.data:
-            return self.__search_tree_helper(node.left, key)
-        return self.__search_tree_helper(node.right, key)
-
-
+            return self.search(node.left, key)
+        return self.search(node.right, key)
 
     def __rb_transplant(self, u, v):
         if u.parent == None:
@@ -120,11 +118,8 @@ class RedBlackTree():
             self.__print_helper(node.left, indent, False)
             self.__print_helper(node.right, indent, True)
 
-
-
-
     def searchTree(self, k):
-        return self.__search_tree_helper(self.root, k)
+        return self.search(self.root, k)
 
     # find the node with the minimum key
     def minimum(self, node):
@@ -137,9 +132,6 @@ class RedBlackTree():
         while node.right != self.TNULL:
             node = node.right
         return node
-
-
-
 
     def left_rotate(self, x):
         y = x.right
@@ -156,7 +148,6 @@ class RedBlackTree():
             x.parent.right = y
         y.left = x
         x.parent = y
-
 
     def right_rotate(self, x):
         y = x.left
@@ -177,7 +168,6 @@ class RedBlackTree():
     # insert the key to the tree in its appropriate position
     # and fix the tree
     def insert(self, key):
-        # Ordinary Binary Search Insertion
         node = Node(key)
         node.parent = None
         node.data = key
@@ -217,32 +207,56 @@ class RedBlackTree():
     def get_root(self):
         return self.root
 
+    def height(self, node):
+        if node == self.TNULL:
+            return 0
+        else:
+            lheight = self.height(node.left)
+            rheight = self.height(node.right)
+            if lheight > rheight:
+                return lheight + 1
+            else:
+                return rheight + 1
 
-
-
+    def size(self, node):
+        if node == self.TNULL:
+            return 0
+        else:
+            return self.size(node.left) + self.size(node.right) + 1
 
 
 if __name__ == "__main__":
 
-   rbt = RedBlackTree()
-   dictf = open('EN-US-Dictionary.txt', 'r')
-   dictionary = dictf.readlines()
-   for key in dictionary:
-       rbt.insert(key)
-   while True:
-       print("1-Search\n2-Insert\n3-Tree Height\n4-Tree Size\n5-Exit")
-       choice = input(">")
-       if choice.lower() == 'search':
-           key = input("Search for Key: ")
-       elif choice.lower() == 'insert':
-           key = input("Insert Key: ")
-       elif choice.lower() == 'tree height':
-           print("Tree Height:")
-       elif choice.lower() == 'tree size':
-           print("Tree Size:")
+    rbt = RedBlackTree()
 
-       elif choice.lower() == 'exit':
-           print("------Terminating Program------")
-           break
-       else:
-           print("Not a Valid Choice!")
+    dictf = open('EN-US-Dictionary.txt', 'r')
+    dictionary = dictf.read().splitlines()
+    for key in dictionary:
+        rbt.insert(key)
+
+    while True:
+        print("1-Search\n2-Insert\n3-Tree Height\n4-Tree Size\n5-Exit")
+        choice = input(">")
+        if choice.lower() == 'search':
+            key = input("Search for Key: ")
+            if rbt.searchTree(key) == 0:
+                print("Not Found!")
+            else:
+                print("Found!")
+        elif choice.lower() == 'insert':
+            key = input("Insert Key: ")
+            if rbt.searchTree(key) == 0:
+                rbt.insert(key)
+                print("{} Inserted!".format(key))
+            else:
+                print("ERROR: Word already in the dictionary!")
+        elif choice.lower() == 'tree height':
+            print("Tree Height: {}".format(rbt.height(rbt.get_root())))
+        elif choice.lower() == 'tree size':
+            print("Tree Size: {}".format(rbt.size(rbt.get_root())))
+
+        elif choice.lower() == 'exit':
+            print("------Terminating Program------")
+            break
+        else:
+            print("Not a Valid Choice!")
