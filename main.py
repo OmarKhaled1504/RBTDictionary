@@ -1,6 +1,3 @@
-
-
-
 # data structure that represents a node in the tree
 class Node():
     def __init__(self, data):
@@ -20,8 +17,6 @@ class RedBlackTree():
         self.TNULL.right = None
         self.root = self.TNULL
 
-
-
     def search(self, node, key):
         if node == self.TNULL or key == node.data:
             return node.data
@@ -29,7 +24,6 @@ class RedBlackTree():
         if key < node.data:
             return self.search(node.left, key)
         return self.search(node.right, key)
-
 
     def fix_insert(self, k):
         while k.parent.color == 1:
@@ -184,7 +178,10 @@ if __name__ == "__main__":
             key = input("Insert Key: ")
             if rbt.searchTree(key) == 0:
                 rbt.insert(key)
+
                 print("{} Inserted!".format(key))
+                print("Tree Height after Insertion: {}".format(rbt.height(rbt.get_root())))
+                print("Tree Size after insertion: {}".format(rbt.size(rbt.get_root())))
             else:
                 print("ERROR: Word already in the dictionary!")
         elif choice.lower() == 'tree height':
