@@ -1,8 +1,4 @@
-# Red Black Tree implementation in Python 2.7
-# Author: Algorithm Tutor
-# Tutorial URL: https://algorithmtutor.com/Data-Structures/Tree/Red-Black-Trees/
 
-import sys
 
 
 # data structure that represents a node in the tree
@@ -24,23 +20,7 @@ class RedBlackTree():
         self.TNULL.right = None
         self.root = self.TNULL
 
-    # def __pre_order_helper(self, node):
-    #     if node != self.TNULL:
-    #         sys.stdout.write(node.data + " ")
-    #         self.__pre_order_helper(node.left)
-    #         self.__pre_order_helper(node.right)
-    #
-    # def __in_order_helper(self, node):
-    #     if node != TNULL:
-    #         self.__in_order_helper(node.left)
-    #         sys.stdout.write(node.data + " ")
-    #         self.__in_order_helper(node.right)
-    #
-    # def __post_order_helper(self, node):
-    #     if node != TNULL:
-    #         self.__post_order_helper(node.left)
-    #         self.__post_order_helper(node.right)
-    #         sys.stdout.write(node.data + " ")
+
 
     def search(self, node, key):
         if node == self.TNULL or key == node.data:
@@ -50,16 +30,7 @@ class RedBlackTree():
             return self.search(node.left, key)
         return self.search(node.right, key)
 
-    def __rb_transplant(self, u, v):
-        if u.parent == None:
-            self.root = v
-        elif u == u.parent.left:
-            u.parent.left = v
-        else:
-            u.parent.right = v
-        v.parent = u.parent
 
-    # fix the red-black tree
     def fix_insert(self, k):
         while k.parent.color == 1:
             if k.parent == k.parent.parent.right:
@@ -101,37 +72,8 @@ class RedBlackTree():
                 break
         self.root.color = 0
 
-    def __print_helper(self, node, indent, last):
-        # print the tree structure on the screen
-        if node != self.TNULL:
-            sys.stdout.write(indent)
-            if last:
-                sys.stdout.write("R----")
-                indent += "     "
-            else:
-                sys.stdout.write("L----")
-                indent += "|    "
-
-            s_color = "RED" if node.color == 1 else "BLACK"
-            print
-            str(node.data) + "(" + s_color + ")"
-            self.__print_helper(node.left, indent, False)
-            self.__print_helper(node.right, indent, True)
-
     def searchTree(self, k):
         return self.search(self.root, k)
-
-    # find the node with the minimum key
-    def minimum(self, node):
-        while node.left != self.TNULL:
-            node = node.left
-        return node
-
-    # find the node with the maximum key
-    def maximum(self, node):
-        while node.right != self.TNULL:
-            node = node.right
-        return node
 
     def left_rotate(self, x):
         y = x.right
@@ -165,8 +107,6 @@ class RedBlackTree():
         y.right = x
         x.parent = y
 
-    # insert the key to the tree in its appropriate position
-    # and fix the tree
     def insert(self, key):
         node = Node(key)
         node.parent = None
@@ -185,7 +125,6 @@ class RedBlackTree():
             else:
                 x = x.right
 
-        # y is parent of x
         node.parent = y
         if y == None:
             self.root = node
@@ -194,12 +133,10 @@ class RedBlackTree():
         else:
             y.right = node
 
-        # if new node is a root node, simply return
         if node.parent == None:
             node.color = 0
             return
 
-        # if the grandparent is None, simply return
         if node.parent.parent == None:
             return
         self.fix_insert(node)
