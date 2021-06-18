@@ -175,6 +175,8 @@ if __name__ == "__main__":
             else:
                 print("Found!")
         elif choice.lower() == 'insert':
+            print("Tree Height before Insertion: {}".format(rbt.height(rbt.get_root())))
+            print("Tree Size before insertion: {}".format(rbt.size(rbt.get_root())))
             key = input("Insert Key: ")
             if rbt.searchTree(key) == 0:
                 rbt.insert(key)
